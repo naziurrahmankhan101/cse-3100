@@ -24,15 +24,40 @@ class ApiClient {
     }
   }
 
-  //   // Handle POST request
-  //   async post(endpoint, data) {
-  //     try {
-  //       const response = await this.client.post(endpoint, data);
-  //       return response.data;
-  //     } catch (error) {
-  //       this.handleError(error);
-  //     }
-  //   }
+  async createSession(name: string, duration: number, username: string, password: string) {
+    try {
+      if (!username || !password) {
+        toast.error('Credentials are required');
+        return;
+      }
+      const response = await this.client.post('/api/session', { name, duration, username, password });
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async submitAttendance(roll: number) {
+    try {
+      const response = await this.client.post('/api/attendance', { roll });
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async viewSessions(username: string, password: string) {
+    try {
+      if (!username || !password) {
+        toast.error('Credentials are required');
+        return;
+      }
+      const response = await this.client.post('/api/sessions', { username, password });
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
 
   // Handle common errors
   handleError(error: any) {

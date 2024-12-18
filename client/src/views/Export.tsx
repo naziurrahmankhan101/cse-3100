@@ -47,7 +47,7 @@ export default function Export() {
             <Form.Control type="text" autoComplete="username" placeholder="Enter username" name="username" value={input.username} onChange={handleChange} className="w-full text-center border-2" />
             <Form.Control autoComplete="current-password" type="password" placeholder="Enter password" name="password" value={input.password} onChange={handleChange} className="w-full mt-2 text-center border-2" />
             <div className="d-grid gap-2 mt-3">
-              <Button variant="primary" size="lg" onClick={handleSubmit}>
+              <Button variant="primary" onClick={handleSubmit}>
                 View session
               </Button>
             </div>
