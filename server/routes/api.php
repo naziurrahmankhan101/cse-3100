@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/test', function () {
-    return response()->json(['Laravel' => app()->version(), 'hello' => 'world', 'cats' => [0, 1, 2]]);
-});
+Route::get('/session', [SessionController::class, 'getSession']);
+Route::post('/session', [SessionController::class, 'createSession']);
+Route::post('/sessions', [SessionController::class, 'viewSessions']);
+Route::post('/attendance', [SessionController::class, 'submitAttendance']);
