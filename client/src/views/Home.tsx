@@ -62,6 +62,7 @@ export default function Home() {
 
     const res = await apiClient.submitAttendance(parseInt(rollValue));
     res.success ? toast.success(res.message) : toast.error(res.message);
+    setRollValue("");
   };
 
   return (

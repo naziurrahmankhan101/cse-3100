@@ -1,3 +1,26 @@
+# Attendance Tracker
+
+## Getting started
+
+Copy the .env.example file as .env in both the `client` and `server` directories.
+
+#### Run the client
+
+```
+cd client
+npm install
+npm run dev
+```
+
+### Run the server
+
+```
+cd server
+composer install
+php artisan key:generate
+php artisan serve
+```
+
 ## Database
 
 ```sh
@@ -14,3 +37,37 @@ when connecting with workbench, use the url: jdbc:mysql://localhost:3306?allowPu
 
 when using var_dump(), they are sent to the http response, ie from postman
 logs are places at storage/logs folder when logging with: Log::info("Debugging Sessions", ['sessions' => $sessions]);
+
+
+
+## Important commands
+
+```
+php artisan make:controller SessionController
+
+
+// CREATE THE TABLES
+php artisan make:migration create_sessions_table
+php artisan make:migration create_attendances_table
+php artisan migrate
+
+composer require nesbot/carbon
+
+
+php artisan make:middleware CheckAdminCredentials
+
+```
+
+## Deployment
+
+https://blog.railway.com/p/github-actions 
+
+https://docs.railway.com/guides/laravel 
+
+## Troubleshoot
+
+1. "No application encryption key has been specified": try running this command
+
+    ```sh 
+    php artisan key:generate
+    ```
