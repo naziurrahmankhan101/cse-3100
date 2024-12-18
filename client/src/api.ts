@@ -37,6 +37,20 @@ class ApiClient {
     }
   }
 
+  async updateSession(session_id: number, active: boolean, username: string, password: string) {
+    try {
+      if (!username || !password) {
+        toast.error('Credentials are required');
+        return;
+      }
+
+      const response = await this.client.put('/api/session', { session_id, active, username, password });
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
   async submitAttendance(roll: number) {
     try {
       const response = await this.client.post('/api/attendance', { roll });

@@ -23,8 +23,8 @@ const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
         <nav>
           <ul className="nav">
             <li className="nav-item">
-              <Button variant="outline-secondary" className="me-2" onClick={() => navigate("/export")}>
-                Export
+              <Button variant="outline-secondary" className="me-2" onClick={() => navigate("/sessions")}>
+                Sessions
               </Button>
               <Button variant="success" className="text-white" onClick={() => setIsCreateDialogOpen(true)}>
                 Create

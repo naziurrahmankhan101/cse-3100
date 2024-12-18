@@ -20,4 +20,7 @@ php artisan migrate
 
 composer require nesbot/carbon
 
+
+php artisan make:middleware CheckAdminCredentials
+
 ```

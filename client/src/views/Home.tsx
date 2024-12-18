@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import ApiClient from "../api";
+import { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import ApiClient from '../api';
+import toast from 'react-hot-toast';
 
 const convertToHm = (seconds: number | undefined) => {
-  if (!seconds) return "0";
+  if (!seconds) return '0';
   const hours = Math.floor(seconds / 3600);
   const mins = Math.floor((seconds % 3600) / 60);
   const secs = seconds % 60;
-  return `${hours}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  return `${hours}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 };
 
 interface SessionInfo {
@@ -18,7 +19,7 @@ interface SessionInfo {
 const apiClient = new ApiClient();
 
 export default function Home() {
-  const [rollValue, setRollValue] = useState("");
+  const [rollValue, setRollValue] = useState('');
   const [sessionInfo, setSessionInfo] = useState<SessionInfo | null>(null);
 
   useEffect(() => {
@@ -28,10 +29,12 @@ export default function Home() {
       const session = await apiClient.getSession();
       console.log(session);
 
-      setSessionInfo({
-        timeRemaining: 120 * 60,
-        name: "B2",
-      });
+      if (session.success) {
+        setSessionInfo({
+          timeRemaining: session.timeRemaining * 60,
+          name: session.name,
+        });
+      }
     };
 
     getSession();
@@ -54,32 +57,36 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [sessionInfo?.timeRemaining]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setRollValue(rollValue);
-    // submit to API
+
+    const res = await apiClient.submitAttendance(parseInt(rollValue));
+    res.success ? toast.success(res.message) : toast.error(res.message);
   };
 
   return (
     <div className="pt-4 d-flex justify-content-around items-center">
-      <div className="w-lg-400">
-        <div className="text-center">
-          <h2 className="text-sm font-medium text-muted-foreground mb-2">Session</h2>
-          <p className="text-3xl font-light fs-4">{sessionInfo?.name}</p>
-        </div>
-        <div className="text-center">
-          <h2 className="text-sm font-medium text-muted-foreground mb-2">Remaining</h2>
-          <p className="text-3xl font-light fs-4">{convertToHm(sessionInfo?.timeRemaining)}</p>
-        </div>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Control type="number" placeholder="Enter roll" value={rollValue} onChange={(e) => setRollValue(e.target.value)} className="w-full text-center border-2" />
-          <div className="d-grid gap-2 mt-3">
-            <Button variant="primary" onClick={handleSubmit}>
-              Submit
-            </Button>
+      {!sessionInfo && <p className="text-3xl font-light fs-4">No active session found</p>}
+      {sessionInfo && (
+        <div className="w-lg-400">
+          <div className="text-center">
+            <h2 className="text-sm font-medium text-muted-foreground mb-2">Session</h2>
+            <p className="text-3xl font-light fs-4">{sessionInfo?.name}</p>
           </div>
-        </Form.Group>
-      </div>
+          <div className="text-center">
+            <h2 className="text-sm font-medium text-muted-foreground mb-2">Remaining</h2>
+            <p className="text-3xl font-light fs-4">{convertToHm(sessionInfo?.timeRemaining)}</p>
+          </div>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Control type="number" placeholder="Enter roll" value={rollValue} onChange={(e) => setRollValue(e.target.value)} className="w-full text-center border-2" />
+            <div className="d-grid gap-2 mt-3">
+              <Button variant="primary" onClick={handleSubmit}>
+                Submit
+              </Button>
+            </div>
+          </Form.Group>
+        </div>
+      )}
     </div>
   );
 }

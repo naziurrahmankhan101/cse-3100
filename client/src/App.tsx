@@ -3,8 +3,8 @@ import BaseLayout from './views/BaseLayout';
 import Home from './views/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import Export from './views/Export';
 import { Toaster } from 'react-hot-toast';
+import Sessions from './views/Sessions';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           }
         >
           <Route path={'/'} element={<Home />} />
-          <Route path={'/export'} element={<Export />} />
+          <Route path={'/sessions'} element={<Sessions />} />
         </Route>
       </Routes>
       <Toaster

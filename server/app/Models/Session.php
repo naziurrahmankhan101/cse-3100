@@ -19,4 +19,9 @@ class Session extends Model
      */
     // Define fillable fields
     protected $fillable = ['name', 'duration'];
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

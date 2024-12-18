@@ -1,17 +1,21 @@
-import { useState } from "react";
-import { Accordion, Button, Form, Modal } from "react-bootstrap";
+import { useState } from 'react';
+import { Accordion, Button, Form, Modal } from 'react-bootstrap';
+import ApiClient from '../api';
+import toast from 'react-hot-toast';
 
 interface CreateSessionDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
+const apiClient = new ApiClient();
+
 export function CreateSessionDialog({ open, setOpen }: CreateSessionDialogProps) {
   const [input, setInput] = useState({
-    sessionName: "",
-    duration: "",
-    username: "",
-    password: "",
+    sessionName: '',
+    duration: '',
+    username: '',
+    password: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,10 +26,18 @@ export function CreateSessionDialog({ open, setOpen }: CreateSessionDialogProps)
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // send to API to create session
-    setOpen(false);
+
+    const data = await apiClient.createSession(input.sessionName, parseInt(input.duration), input.username, input.password);
+    console.log(data);
+
+    if (!data.success) {
+      toast.error(data.message);
+    } else {
+      toast.success(data.message);
+      setOpen(false);
+    }
   };
 
   const handleClose = () => setOpen(false);
