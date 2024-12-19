@@ -64,6 +64,13 @@ https://blog.railway.com/p/github-actions
 
 https://docs.railway.com/guides/laravel 
 
+### Railway
+
+1. Create a service mysql
+2. Create another service from github repo
+
+make sure to set the variables
+
 
 ##### Locally [production test]
 ```
