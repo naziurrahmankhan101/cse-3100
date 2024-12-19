@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Form, Table } from 'react-bootstrap';
 import ApiClient from '../api';
 import toast from 'react-hot-toast';
+import { calculateAttendanceMarks } from '../helpers/util';
 
 interface Attendance {
   id: number;
@@ -20,19 +21,6 @@ interface Session {
 }
 
 const apiClient = new ApiClient();
-const totalMarksPerDay = 3;
-
-const calculateAttendanceMarks = (attendanceAt: string, duration: string, classStartedAt: string): number => {
-  const buffer = 30 * 60 * 1000; // 30 mins buffer time to account for network/response issues
-  let end_time = new Date(classStartedAt).getTime() + parseInt(duration) * 60 * 1000;
-  const start_time = new Date(attendanceAt).getTime();
-  if (start_time > end_time) return 0;
-
-  end_time += buffer;
-  const student_attended_time = end_time - start_time;
-  const total_marks = (totalMarksPerDay / (parseInt(duration) * 60 * 1000)) * student_attended_time;
-  return Math.min(totalMarksPerDay, total_marks);
-};
 
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);

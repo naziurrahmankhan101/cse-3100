@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import ApiClient from '../api';
 import toast from 'react-hot-toast';
+import { calculateAttendanceMarks, totalMarksPerDay } from '../helpers/util';
 
 const convertToHm = (seconds: number | undefined) => {
   if (!seconds) return '0';
@@ -14,6 +15,8 @@ const convertToHm = (seconds: number | undefined) => {
 interface SessionInfo {
   timeRemaining: number; // in seconds
   name: string;
+  duration?: string;
+  created_at?: string;
 }
 
 const apiClient = new ApiClient();
@@ -31,6 +34,7 @@ export default function Home() {
 
       if (session.success) {
         setSessionInfo({
+          ...session,
           timeRemaining: session.timeRemaining * 60,
           name: session.name,
         });
@@ -61,8 +65,20 @@ export default function Home() {
     e.preventDefault();
 
     const res = await apiClient.submitAttendance(parseInt(rollValue));
-    res.success ? toast.success(res.message) : toast.error(res.message);
-    setRollValue("");
+    console.log('res', res);
+
+    console.log('sessionInfo', sessionInfo);
+
+    if (res.success && sessionInfo) {
+      const attendanceMarks = calculateAttendanceMarks(res.attendance.created_at, sessionInfo.duration!, sessionInfo.created_at!);
+      toast.success(`Obtained marks: ${attendanceMarks} out of ${totalMarksPerDay}`, {
+        duration: 5000,
+      });
+    } else {
+      toast.error(res.message);
+    }
+
+    setRollValue('');
   };
 
   return (
