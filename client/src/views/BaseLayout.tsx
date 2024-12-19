@@ -13,7 +13,7 @@ const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
 
   return (
     <div className="layout">
-      <header className="d-flex align-items-center my-1 bg-light">
+      <header className="d-flex align-items-center my-1 bg-light navbar-mx">
         <h3>
           <Link className="text-decoration-none text-dark" to="/">
             Attendance

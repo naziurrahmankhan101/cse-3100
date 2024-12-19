@@ -1,7 +1,10 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Josefin Sans', serif;
   line-height: 1.5;
   font-weight: 400;
+}
+body {
+  font-family: 'Josefin Sans', serif;
 }
 
 .layout {
@@ -26,5 +29,12 @@ footer {
 @media (min-width: 576px) {
   .w-lg-400 {
     width: 400px;
+  }
+}
+
+@media (min-width: 576px) {
+  .navbar-mx {
+    padding-left: 300px;
+    padding-right: 300px;
   }
 }

@@ -37,6 +37,7 @@ export function CreateSessionDialog({ open, setOpen }: CreateSessionDialogProps)
     } else {
       toast.success(data.message);
       setOpen(false);
+      window.location.reload();
     }
   };
 
