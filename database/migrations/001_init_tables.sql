@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `attendance_tracker` DEFAULT CHARACTER SET latin1 COLLATE latin1_danish_ci;
+
 DROP TABLE IF EXISTS `attendances`;
 DROP TABLE IF EXISTS `sessions`;
 

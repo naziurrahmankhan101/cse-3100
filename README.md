@@ -64,6 +64,18 @@ https://blog.railway.com/p/github-actions
 
 https://docs.railway.com/guides/laravel 
 
+
+##### Locally [production test]
+```
+// build the image. assuming .env is in the root
+cat .env | xargs -I {} docker build --build-arg {} -t laravel-react-app .
+docker run -d -p 80:80 --name laravel-react-app laravel-react-app
+
+
+docker run -p 8080:80 --name laravel-react-app laravel-react-app
+
+
+```
 ## Troubleshoot
 
 1. "No application encryption key has been specified": try running this command
